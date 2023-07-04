@@ -1,7 +1,7 @@
-const { client } = require("./mongoClient")
+const { client } = require("./mongoDBClient")
 
-const eBooksCollection = () => client().db("moveAbroad").collection("eBooks");
+const eBooksCollection = () => client().db("MoveAbroad").collection("eBooks");
 
-module.export =  {
+module.exports =  {
     eBooksCollection
 }
