@@ -2,6 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const { eBooksRouter } = require("./routes/EBooks");
 const { connect } = require("./mongoDBConfig/mongoDBClient");
+const { usersRouter } = require("./routes/users");
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -15,17 +16,14 @@ app.get('/', (req, res) => {
 
 connect()
     .then(() => {
-        // users routes
-        app.use("/ebook", eBooksRouter)
+        // Ebook route
+        app.use("/ebook", eBooksRouter);
+        app.use("/users", usersRouter);
     })
     .catch(err => console.log(err))
 
 app.get("/", (req, res) => {
     res.send("MoveAbroad server is running")
 })
-
-// app.get("*", (req, res) => {
-//     res.send("404 : Not found")
-// })
 
 app.listen(port, () => console.log("Server: I am on 😁 - port:", port))

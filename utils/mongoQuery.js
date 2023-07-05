@@ -15,7 +15,7 @@ const updateDoc = (req, collection) => collection().updateOne(
         $set: req.body
     }
 )
-
+ 
 // query to delete a mongodb document
 const deleteDoc = (req, collection) => collection().deleteOne({
     _id: new ObjectId(req.params.id)
