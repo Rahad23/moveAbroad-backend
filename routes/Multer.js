@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const {  handleFileUpload } = require("../controllers/MulterController");
+const {  handleFileUpload, getBooks } = require("../controllers/MulterController");
 
 const eBookMulter = require("express").Router();
 
-router.post('/', handleFileUpload);
+
+
+eBookMulter.get('/', getBooks);
+eBookMulter.post('/', handleFileUpload);
 
 module.exports = {
     eBookMulter

@@ -1,25 +1,42 @@
 const multer = require('multer');
+const path = require('path');
 
 // Set up multer storage configuration
 const storage = multer.diskStorage({
-  destination: '../Assets/EBookImg',
+  destination: function (req, file, cb) {
+    const destinationPath = path.join(__dirname, '../Assets/EBookImg');
+    return cb(null, destinationPath);
+  },
   filename: function (req, file, cb) {
-    console.log(file);
-    // Generate a unique filename for the uploaded file
+    const originalName = file.originalname;
+    const extension = path.extname(originalName);
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix);
+    return cb(null, file.fieldname + '-' + uniqueSuffix + extension);
   }
 });
 
-// Set up multer upload instance
-const upload = multer({ storage: storage });
+// Define file size limit and allowed file types
+const fileSizeLimit = 1 * 1024 * 1024; // upload img 1MB
+const allowedFileTypes = ['image/jpeg', 'image/png',"image/jpg"];
 
-// Define the handleFileUpload function
-function handleFileUpload(req, res) {
-  console.log(req)
+// Set up multer upload instance with file size limit and file type check
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: fileSizeLimit
+  },
+  fileFilter: function (req, file, cb) {
+    if (allowedFileTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG and PNG files are allowed.'));
+    }
+  }
+});
 
+function handleFileUpload (req, res) {
   // Use the upload.single middleware to handle the file upload
-  upload.single('books')(req, res, function (err) {
+  upload.single('files')(req, res, function (err) {
     if (err) {
       // An error occurred during file upload
       return res.status(500).json({ error: err.message });
@@ -33,7 +50,6 @@ function handleFileUpload(req, res) {
 
     // Access the uploaded file using req.file
     const { originalname, filename, size } = req.file;
-
     // Perform necessary operations with the file
     // For example, you can save the file details to a database
 
@@ -47,6 +63,11 @@ function handleFileUpload(req, res) {
   });
 }
 
+const getBooks =async(req, res)=>{
+  return await res.send("Hello multer");
+}
+
 module.exports = {
-  handleFileUpload
-};
+  handleFileUpload,
+  getBooks
+}
