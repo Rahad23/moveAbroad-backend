@@ -4,7 +4,7 @@ const path = require('path');
 // Set up multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const destinationPath = path.join(__dirname, '../Assets/EBookImg');
+    const destinationPath = path.join(__dirname, '../public/Assets/EBookImg');
     return cb(null, destinationPath);
   },
   filename: function (req, file, cb) {
