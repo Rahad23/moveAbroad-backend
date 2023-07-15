@@ -4,6 +4,8 @@ const { eBooksRouter } = require("./routes/EBooks");
 const { connect } = require("./mongoDBConfig/mongoDBClient");
 const { usersRouter } = require("./routes/users");
 const { eBookMulter } = require("./routes/Multer");
+const { liveSeminarMulter } = require("./routes/LiveSeminarMulter");
+const { liveOnlineSeminar } = require("./routes/LiveOnlineSeminar");
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -22,6 +24,8 @@ connect()
         app.use("/ebook", eBooksRouter);
         app.use("/users", usersRouter);
         app.use("/upload",eBookMulter);
+        app.use("/liveSeminar", liveSeminarMulter);
+        app.use("/liveOnlineSeminar", liveOnlineSeminar);
     })
     .catch(err => console.log(err))
 
