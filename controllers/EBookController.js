@@ -5,11 +5,11 @@ const fs = require('fs');
 const path = require('path');
 // image folder path
 const imageFolderPath = path.join(`${process.env.APP_IMG_URL}/Assets/EBookImg`);
-// console.log(imageFolderPath)
+
 const getEBookList = async (req, res) => {
     const booksData = await eBooksCollection().find({}).toArray();
     const eBooksWithImagePaths = booksData.map(user => ({
-        ...user,
+         ...user,
         imagePath: `${imageFolderPath}/${user.imgFileName}`,
       }));
 
