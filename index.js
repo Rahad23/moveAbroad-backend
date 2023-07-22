@@ -6,6 +6,8 @@ const { usersRouter } = require("./routes/users");
 const { eBookMulter } = require("./routes/Multer");
 const { liveSeminarMulter } = require("./routes/LiveSeminarMulter");
 const { liveOnlineSeminar } = require("./routes/LiveOnlineSeminar");
+const { admin } = require("./routes/Admin");
+const jwtRouter = require("./routes/JWTRouter");
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -26,6 +28,8 @@ connect()
         app.use("/upload",eBookMulter);
         app.use("/liveSeminar", liveSeminarMulter);
         app.use("/liveOnlineSeminar", liveOnlineSeminar);
+        app.use("/admin", admin);
+        app.use("/jwt", jwtRouter);
     })
     .catch(err => console.log(err))
 
