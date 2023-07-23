@@ -6,8 +6,15 @@ const getUsers = async (req, res) => {
     res.send(result);
 };
 const postUsers = async (req, res) => {
-    const result = await createDoc(req, usersCollection);
-    res.send(result);
+    const {email} = req.body;
+    const userEmail = await  usersCollection().findOne({email});
+    if(!userEmail){
+        const result = await createDoc(req, usersCollection);
+        res.send(result);
+    }else{
+        res.status(400).send("This email has been taken");
+    }
+    
 };
 
 module.exports={
